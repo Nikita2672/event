@@ -8,6 +8,7 @@
     <changeSet id="addRolesData" author="nivanov">
 
         <preConditions onFail="MARK_RAN">
+            <tableExists tableName="roles"/>
             <sqlCheck expectedResult="0">
                 SELECT COUNT(*)
                 FROM roles;
@@ -33,6 +34,7 @@
     <changeSet id="addUsersData" author="nivanov">
 
         <preConditions onFail="MARK_RAN">
+            <tableExists tableName="users"/>
             <sqlCheck expectedResult="0">
                 SELECT COUNT(*) FROM users WHERE username IN ('iwaa_admin', 'iwaa_admin1', 'iwaa_user1', 'iwaa_user2',
                                                               'iwaa_user3', 'iwaa_user4', 'iwaa_user5', 'iwaa_user6',
@@ -125,6 +127,9 @@
 
     <changeSet id="addUserRolesData" author="nivanov">
         <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM user_roles
+            </sqlCheck>
             <sqlCheck expectedResult="16">
                 SELECT COUNT(*) FROM users WHERE username IN ('iwaa_admin', 'iwaa_admin1', 'iwaa_user1', 'iwaa_user2',
                                                               'iwaa_user3', 'iwaa_user4', 'iwaa_user5', 'iwaa_user6',

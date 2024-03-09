@@ -32,9 +32,9 @@ public class UserController {
 
     @PostMapping("/permission")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserVo> givePermission(@RequestParam(name = "username") String username) {
-        UserVo userVo = userService.givePermissions(username);
-        if (userVo == null) return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(userVo);
+    public ResponseEntity<UserVo> givePermission(@RequestBody UserVo userVo) {
+        UserVo responseUserVo = userService.givePermissions(userVo.username());
+        if (responseUserVo == null) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(responseUserVo);
     }
 }

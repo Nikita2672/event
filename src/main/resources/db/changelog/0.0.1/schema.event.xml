@@ -6,7 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="createRolesTable" author="nivanov">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="roles"/>
             </not>
@@ -127,5 +127,30 @@
             ALTER TABLE event_request
                 ADD CONSTRAINT event_request_status_check CHECK (status = 'DRAFT' OR status = 'REJECT' OR status = 'SUBMIT' or status = 'ACCEPT')
         </sql>
+    </changeSet>
+
+    <changeSet id="createTokenTable" author="nivanov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="token"/>
+            </not>
+        </preConditions>
+        <createTable tableName="token">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="expired" type="BOOLEAN"/>
+            <column name="revoked" type="BOOLEAN"/>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="token_type" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="token"
+                baseColumnNames="user_id"
+                constraintName="fk_token_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

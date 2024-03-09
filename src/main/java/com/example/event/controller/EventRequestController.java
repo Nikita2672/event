@@ -93,6 +93,14 @@ public class EventRequestController {
         return ResponseEntity.ok(eventRequestService.getEventRequests(getUserIdFromToken(), pageNumber, sortOrder));
     }
 
+    @GetMapping("admin/eventRequests")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<EventRequestVo>> getAllEventRequests(@RequestParam(name = "ascSort", defaultValue = "true") String sortOrder,
+                                                                    @RequestParam(name = "page", defaultValue = "0") int pageNumber,
+                                                                    @RequestParam(name = "eventName", defaultValue = "") String eventName) {
+        return ResponseEntity.ok(eventRequestService.getAllEventRequests(pageNumber, sortOrder, eventName));
+    }
+
     private Long getUserIdFromToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
@@ -100,4 +108,6 @@ public class EventRequestController {
         }
         return null;
     }
+
+
 }

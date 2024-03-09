@@ -18,7 +18,8 @@ public class EventRequestConverterImpl implements EventRequestConverter {
                 eventRequest.getStatus(),
                 eventRequest.getAppealText(),
                 eventRequest.getPhone(),
-                eventRequest.getName()
+                eventRequest.getName(),
+                eventRequest.getCreationDate()
         );
     }
 }

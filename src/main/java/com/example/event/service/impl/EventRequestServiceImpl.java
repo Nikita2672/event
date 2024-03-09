@@ -40,8 +40,9 @@ public class EventRequestServiceImpl implements EventRequestService {
 
     @Override
     public EventRequestVo createEventRequest(EventRequestVo eventRequestVo, Long userId) {
+
         EventRequest eventRequest = EventRequest.builder()
-                .status(eventRequestVo.status())
+                .status(Status.DRAFT)
                 .appealText(eventRequestVo.appealText())
                 .phone(eventRequestVo.phone())
                 .name(eventRequestVo.name())
@@ -99,7 +100,7 @@ public class EventRequestServiceImpl implements EventRequestService {
         if (!optionalEventRequest.get().getStatus().equals(Status.DRAFT)) return null;
 
         EventRequest eventRequest = optionalEventRequest.get();
-        eventRequest.setStatus(eventRequestVo.status());
+        eventRequest.setStatus(Status.DRAFT);
         eventRequest.setAppealText(eventRequestVo.appealText());
         eventRequest.setPhone(eventRequestVo.phone());
         eventRequest.setName(eventRequestVo.name());
@@ -139,5 +140,16 @@ public class EventRequestServiceImpl implements EventRequestService {
         EventRequest eventRequest = optionalEventRequest.get();
         eventRequest.setStatus(Status.REJECT);
         return eventRequestConverter.convertToVo(eventRequestRepository.save(eventRequest));
+    }
+
+    @Override
+    public List<EventRequestVo> getAllEventRequests(int pageNumber, String sortOrder, String eventRequestName) {
+        Sort sort = sortOrder.equals("true") ? Sort.by("creationDate").ascending() : Sort.by("creationDate").descending();
+        Pageable pageable = PageRequest.of(pageNumber, PAGE_SIZE, sort);
+        List<Status> statusList = List.of(Status.ACCEPT, Status.SUBMIT, Status.REJECT);
+        return eventRequestRepository.findAllByNameAndStatusIn(pageable, eventRequestName, statusList)
+                .stream()
+                .map(eventRequestConverter::convertToVo)
+                .toList();
     }
 }

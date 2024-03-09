@@ -3,10 +3,11 @@ package com.example.event.service.impl;
 import com.example.event.model.ERole;
 import com.example.event.model.Role;
 import com.example.event.model.User;
+import com.example.event.repository.RoleRepository;
 import com.example.event.repository.UserRepository;
 import com.example.event.service.UserService;
 import com.example.event.view.UserVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +18,12 @@ import java.util.Optional;
  * @since %CURRENT_VERSION%
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final RoleRepository roleRepository;
 
 
     @Override
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
             if (user.getRoles().stream().anyMatch(role -> role.getName() == ERole.ROLE_MODERATOR)) {
                 return null;
             }
-            user.getRoles().add(new Role(ERole.ROLE_MODERATOR));
+            user.getRoles().add(roleRepository.findByName(ERole.ROLE_MODERATOR));
             user = userRepository.save(user);
             return new UserVo(user.getUsername(), user.getRoles());
         }

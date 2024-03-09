@@ -18,6 +18,8 @@ public interface EventRequestService {
 
     List<EventRequestVo> getEventRequests(int pageNumber, boolean sortOrder, String eventRequestName);
 
+    List<EventRequestVo> getAllEventRequests(int pageNumber, String sortOrder, String eventRequestName);
+
     List<EventRequestVo> getEventRequestsByUsername(String username);
 
     EventRequestVo updateEventRequest(@Nonnull Long userId, Long eventRequestId, EventRequestVo eventRequestVo);
