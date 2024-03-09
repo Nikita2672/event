@@ -14,7 +14,7 @@ public class LiquibaseConfig {
         SpringLiquibase liquibase = new SpringLiquibase();
         liquibase.setDataSource(dataSource);
         liquibase.setChangeLog("classpath:/db/changelog/schema.event.xml");
-        liquibase.setShouldRun(false);  // Это обеспечивает выполнение миграций при запуске приложения
+        liquibase.setShouldRun(false);
         return liquibase;
     }
 }

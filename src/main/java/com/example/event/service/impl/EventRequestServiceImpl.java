@@ -1,6 +1,6 @@
 package com.example.event.service.impl;
 
-import com.example.event.config.converter.EventRequestConverter;
+import com.example.event.converter.EventRequestConverter;
 import com.example.event.model.EventRequest;
 import com.example.event.model.Status;
 import com.example.event.model.User;

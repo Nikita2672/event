@@ -1,5 +1,6 @@
 package com.example.event.config.jwt;
 
+import com.example.event.config.token.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

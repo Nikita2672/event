@@ -1,4 +1,4 @@
-package com.example.event.config.converter;
+package com.example.event.converter;
 
 import com.example.event.model.EventRequest;
 import com.example.event.view.EventRequestVo;

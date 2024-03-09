@@ -1,4 +1,4 @@
-package com.example.event.config.jwt;
+package com.example.event.config.token;
 
 import com.example.event.model.User;
 import jakarta.persistence.*;
@@ -16,10 +16,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "token")
 public class Token {
     @Id
     @GeneratedValue
-    public Integer id;
+    public Long id;
 
     @Column(unique = true)
     public String token;
@@ -32,6 +33,6 @@ public class Token {
     public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn( table = "users", referencedColumnName = "id")
+    @JoinColumn( name = "user_id", referencedColumnName = "id")
     public User user;
 }

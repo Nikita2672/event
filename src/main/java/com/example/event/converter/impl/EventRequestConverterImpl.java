@@ -1,6 +1,6 @@
-package com.example.event.config.converter.impl;
+package com.example.event.converter.impl;
 
-import com.example.event.config.converter.EventRequestConverter;
+import com.example.event.converter.EventRequestConverter;
 import com.example.event.model.EventRequest;
 import com.example.event.view.EventRequestVo;
 import org.springframework.stereotype.Component;

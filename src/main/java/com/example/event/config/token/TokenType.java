@@ -1,9 +1,9 @@
-package com.example.event.config.jwt;
+package com.example.event.config.token;
 
 /**
  * @author nivanov
  * @since %CURRENT_VERSION%
  */
-enum TokenType {
+public enum TokenType {
     BEARER
 }

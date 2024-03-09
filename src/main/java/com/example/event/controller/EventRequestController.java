@@ -1,7 +1,7 @@
 package com.example.event.controller;
 
+import com.example.event.model.User;
 import com.example.event.service.impl.EventRequestServiceImpl;
-import com.example.event.service.auth.UserDetailsImpl;
 import com.example.event.view.EventRequestVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -96,7 +96,7 @@ public class EventRequestController {
     private Long getUserIdFromToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
-            return ((UserDetailsImpl) userDetails).getId();
+            return ((User) userDetails).getId();
         }
         return null;
     }
