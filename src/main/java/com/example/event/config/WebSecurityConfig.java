@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 
@@ -27,12 +28,23 @@ public class WebSecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html"};
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                // Настройка доступа к конечным точкам
                 .authorizeHttpRequests(request -> request
-                        // Можно указать конкретный путь, * - 1 уровень вложенности, ** - любое количество уровней вложенности
+                        .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/event/user/**").hasRole("USER")
                         .requestMatchers("/api/event/moderator/**").hasRole("MODERATOR")
