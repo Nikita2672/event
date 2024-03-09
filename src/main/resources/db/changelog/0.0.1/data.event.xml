@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="addRolesData" author="nivanov">
+
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*)
+                FROM roles;
+            </sqlCheck>
+        </preConditions>
+
+        <insert tableName="roles">
+            <column name="id" value="1"/>
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+
+        <insert tableName="roles">
+            <column name="id" value="2"/>
+            <column name="name" value="ROLE_MODERATOR"/>
+        </insert>
+
+        <insert tableName="roles">
+            <column name="id" value="3"/>
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="addUsersData" author="nivanov">
+
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM users WHERE username IN ('iwaa_admin', 'iwaa_admin1', 'iwaa_user1', 'iwaa_user2',
+                                                              'iwaa_user3', 'iwaa_user4', 'iwaa_user5', 'iwaa_user6',
+                                                              'iwaa_user7', 'iwaa_user8', 'iwaa_user9', 'iwaa_user10',
+                                                              'iwaa_mod1', 'iwaa_mod2', 'iwaa_mod3', 'iwaa_mod4')
+            </sqlCheck>
+        </preConditions>
+
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_admin"/>
+            <column name="password" value="$2a$10$CZknzfCnWYy86VoRXArtcOHCXeXXzpndT1LODjGeCrdkOMIO0JsiK"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_admin1"/>
+            <column name="password" value="$2a$10$eHLIXegX71vP6fk1LTDGW.yLuTx9Xl.zozBPGZ7tLqGDqb9svbfpi"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user1"/>
+            <column name="password" value="$2a$10$bwDwLe4G8VeEUqvIi393T.2r7MmueGElM981h5ku91fssZYrnAepO"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user2"/>
+            <column name="password" value="$2a$10$S19K3IEfES/jh0uhZxfSQOpGGEh3YoYZXdX5Wo44nGxkF4gyrHEbC"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user3"/>
+            <column name="password" value="$2a$10$7zPWhWecmci6tJD8r.CU9.7DIQiiZ9AjaGoS3y2aRae1Qlv813uYm"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user4"/>
+            <column name="password" value="$2a$10$0NHolankYcSf76ObCEeonec2akFcMlU.wyBx692Oxv7K3xhUUgnmu"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user5"/>
+            <column name="password" value="$2a$10$fu2YEwzadhji9gND7UJ2ZumX9THHLLg8/4swQPf2sNzhwn8PlKGki"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user6"/>
+            <column name="password" value="$2a$10$L2/5Zj8OrGBc6C/fJvmQb.8DoHtDutAcccGJTzjXpGMXBw3Ega6AK"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user7"/>
+            <column name="password" value="$2a$10$qNjHfBX3hKpciLp3TDvNIeavXlQJTVksNUNbevr1AwqvvFjS9zD46"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user8"/>
+            <column name="password" value="$2a$10$xUStM6.38PKaKm7zoRmVW.p/fPyedKJ2.e8DWtGUxXdZm2VxXrM/W"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user9"/>
+            <column name="password" value="$2a$10$3ntfr7RrdlR.jdAYoasF1ey3mCNKUzc/Vj8BgZqid2ZoMPBo7iZDG"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_user10"/>
+            <column name="password" value="$2a$10$GXRACqyT71WnYOWjOq/5/eaQHn8OcpNyQT.gDgmFrzeZod0A0cN5e"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_mod1"/>
+            <column name="password" value="$2a$10$FwACi/b7zPUYMPI4BfTr4.QHDM4VD0NtT8hk8xk24MQAMD7I9B2I2"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_mod2"/>
+            <column name="password" value="$2a$10$XeLsuPAcZlHR80D4T4ki6eeRsC6NtS436dm3o3f7.9.xv2bSiQlEG"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_mod3"/>
+            <column name="password" value="$2a$10$uruXNUDt1NVp9kOB04Vofut5TlLH2gSZYy5N3SXCkLuGNe2ucBTE"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="iwaa_mod4"/>
+            <column name="password" value="$2a$10$ky8NdMLk7OkvMsNzxr9IQu5cRhplZMvyQcnwPAleTgHA.ZObKHn62"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="addUserRolesData" author="nivanov">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="16">
+                SELECT COUNT(*) FROM users WHERE username IN ('iwaa_admin', 'iwaa_admin1', 'iwaa_user1', 'iwaa_user2',
+                                                              'iwaa_user3', 'iwaa_user4', 'iwaa_user5', 'iwaa_user6',
+                                                              'iwaa_user7', 'iwaa_user8', 'iwaa_user9', 'iwaa_user10',
+                                                              'iwaa_mod1', 'iwaa_mod2', 'iwaa_mod3', 'iwaa_mod4')
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user1' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user2' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user3' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user4' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user5' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user6' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user7' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user8' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user9' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_user10' AND r.name = 'ROLE_USER';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_admin' AND r.name = 'ROLE_ADMIN';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_admin1' AND r.name = 'ROLE_ADMIN';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_mod1' AND r.name = 'ROLE_MODERATOR';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_mod2' AND r.name = 'ROLE_MODERATOR';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_mod3' AND r.name = 'ROLE_MODERATOR';
+        </sql>
+
+        <sql>
+            INSERT INTO user_roles (user_id, role_id)
+            SELECT u.id, r.id
+            FROM users u, roles r
+            WHERE u.username = 'iwaa_mod4' AND r.name = 'ROLE_MODERATOR';
+        </sql>
+    </changeSet>
+</databaseChangeLog>

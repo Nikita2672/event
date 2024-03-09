@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="createRolesTable" author="nivanov">
+        <preConditions>
+            <not>
+                <tableExists tableName="roles"/>
+            </not>
+        </preConditions>
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <sql>
+            ALTER TABLE roles ADD CONSTRAINT roles_name_check CHECK (name = 'ROLE_USER' OR name = 'ROLE_MODERATOR' OR name = 'ROLE_ADMIN')
+        </sql>
+
+    </changeSet>
+
+    <changeSet id="createUserTable" author="nivanov">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="users"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createUserRolesTable" author="nivanov">
+
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="users"/>
+            <not>
+                <tableExists tableName="user_roles"/>
+            </not>
+            <tableExists tableName="roles"/>
+        </preConditions>
+
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT"/>
+            <column name="role_id" type="BIGINT"/>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="user_roles"
+                columnNames="user_id, role_id"
+                constraintName="users_roles_pkey"/>
+
+        <addForeignKeyConstraint
+                baseTableName="user_roles"
+                baseColumnNames="user_id"
+                constraintName="fk_users_and_roles_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="user_roles"
+                baseColumnNames="role_id"
+                constraintName="fk_users_and_roles_role_id"
+                referencedTableName="roles"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+
+    <changeSet id="createEventRequestTable" author="nivanov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="event_request"/>
+            </not>
+            <tableExists tableName="users"/>
+        </preConditions>
+
+        <createTable tableName="event_request">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="appeal_text" type="VARCHAR(1000)"/>
+            <column name="creation_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operator_id" type="BIGINT"/>
+            <column name="phone" type="VARCHAR(20)"/>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="event_request"
+                baseColumnNames="user_id"
+                constraintName="fk_event_request_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="event_request"
+                baseColumnNames="operator_id"
+                constraintName="fk_event_request_operator_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+        <sql>
+            ALTER TABLE event_request
+                ADD CONSTRAINT event_request_status_check CHECK (status = 'DRAFT' OR status = 'REJECT' OR status = 'SUBMIT' or status = 'ACCEPT')
+        </sql>
+    </changeSet>
+</databaseChangeLog>
