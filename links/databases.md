@@ -1,6 +1,8 @@
 # DataBase migration
 
- Накатываем миграцию в зависимости от того какую БД используем (все команды запускать из корня проекта).
+Накатываем миграцию в зависимости от того какую БД используем (все команды запускать из корня проекта).
+
+## PostgreSQL
 
 Параметры в скрипте по умолчанию для PostgreSQL (при желании можно заменить
 в [do-update.sh](./../do-update.sh) и в [do-clear-checksums.sh](./../do-clear-checksums.sh)):
@@ -21,6 +23,8 @@
 ./do-clear-checksums.sh postgres
 ```
 
+
+## MariaDB
 Параметры в скрипте по умолчанию для MariaDB (при желании можно заменить
 в [do-update.sh](./../do-update.sh) и в [do-clear-checksums.sh](./../do-clear-checksums.sh)):
 ```
