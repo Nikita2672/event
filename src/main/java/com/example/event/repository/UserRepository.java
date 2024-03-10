@@ -1,12 +1,9 @@
 package com.example.event.repository;
 
 import com.example.event.model.User;
-import jakarta.annotation.Nonnull;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
 import java.util.Optional;
 
 /**

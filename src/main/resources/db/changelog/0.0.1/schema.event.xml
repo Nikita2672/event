@@ -80,6 +80,26 @@
                 referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="createPhonesTable" author="nivanov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="phones"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="phones">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="country_code" type="VARCHAR(255)"/>
+            <column name="city_code" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 
     <changeSet id="createEventRequestTable" author="nivanov">
         <preConditions onFail="MARK_RAN">
@@ -101,7 +121,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="operator_id" type="BIGINT"/>
-            <column name="phone" type="VARCHAR(20)"/>
+            <column name="phone_id" type="BIGINT"/>
             <column name="status" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -123,6 +143,12 @@
                 constraintName="fk_event_request_operator_user_id"
                 referencedTableName="users"
                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="event_request"
+                                 baseColumnNames="phone_id"
+                                 constraintName="fk_event_request_phone_id"
+                                 referencedTableName="phones"
+                                 referencedColumnNames="id"/>
         <sql>
             ALTER TABLE event_request
                 ADD CONSTRAINT event_request_status_check CHECK (status = 'DRAFT' OR status = 'REJECT' OR status = 'SUBMIT' or status = 'ACCEPT')
@@ -136,7 +162,7 @@
             </not>
         </preConditions>
         <createTable tableName="token">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="expired" type="BOOLEAN"/>

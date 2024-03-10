@@ -3,6 +3,7 @@ package com.example.event.model;
 import com.example.event.config.token.Token;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,10 +19,9 @@ import java.util.stream.Collectors;
  * @since %CURRENT_VERSION%
  */
 @Entity
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username")
-})
+@Table(name = "users")
 @Data
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -47,10 +47,6 @@ public class User implements UserDetails {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public User() {
-
     }
 
     @Override

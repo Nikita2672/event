@@ -1,6 +1,6 @@
 package com.example.event.view;
 
-import com.example.event.model.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Set;
 
@@ -9,8 +9,10 @@ import java.util.Set;
  * @since %CURRENT_VERSION%
  */
 public record UserVo(
+        @JsonProperty("username")
         String username,
-        Set<Role> roles
+        @JsonProperty("roles")
+        Set<String> roles
 ) {
 
 }

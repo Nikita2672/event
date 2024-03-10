@@ -16,4 +16,5 @@ public record EventRequestVo(
         @JsonProperty("name") String name,
         @JsonProperty("creationDate") LocalDateTime creationDate
 ) {
+
 }

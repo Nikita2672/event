@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "event_request")
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -27,8 +26,9 @@ public class EventRequest {
     @Column(name = "appeal_text")
     private String appealText;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "phone_id")
+    @JoinColumn(name = "phone_id", table = "phones", referencedColumnName = "id")
+    private Long phoneId;
 
     @Column(name = "name")
     private String name;

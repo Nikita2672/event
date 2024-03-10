@@ -1,8 +1,8 @@
 package com.example.event.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author nivanov
@@ -10,8 +10,8 @@ import lombok.Setter;
  */
 @Entity
 @Table(name = "roles")
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class Role {
 
     @Id
@@ -22,12 +22,4 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(name = "name", length = 20)
     private ERole name;
-
-    public Role(ERole role) {
-        this.name = role;
-    }
-
-    public Role() {
-
-    }
 }

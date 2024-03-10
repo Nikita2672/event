@@ -3,7 +3,7 @@ package com.example.event.controller;
 import com.example.event.model.User;
 import com.example.event.service.impl.EventRequestServiceImpl;
 import com.example.event.view.EventRequestVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,20 +19,20 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/event")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@RequiredArgsConstructor
 public class EventRequestController {
 
     private final EventRequestServiceImpl eventRequestService;
 
-    @Autowired
-    public EventRequestController(EventRequestServiceImpl eventRequestService) {
-        this.eventRequestService = eventRequestService;
-    }
-
     @PostMapping("user/create")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EventRequestVo> createEventRequest(@RequestBody EventRequestVo eventRequestVo) {
-        return ResponseEntity.ok(eventRequestService.createEventRequest(eventRequestVo, getUserIdFromToken()));
+        EventRequestVo eventRequest = eventRequestService.createEventRequest(eventRequestVo, getUserIdFromToken());
+        if (eventRequest == null) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            return ResponseEntity.ok(eventRequest);
+        }
     }
 
     @GetMapping("user/{eventId}")

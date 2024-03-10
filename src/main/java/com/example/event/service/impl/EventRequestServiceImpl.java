@@ -1,6 +1,5 @@
 package com.example.event.service.impl;
 
-import com.example.event.converter.EventRequestConverter;
 import com.example.event.model.EventRequest;
 import com.example.event.model.Status;
 import com.example.event.model.User;
@@ -9,7 +8,7 @@ import com.example.event.repository.UserRepository;
 import com.example.event.service.EventRequestService;
 import com.example.event.view.EventRequestVo;
 import jakarta.annotation.Nonnull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,35 +20,32 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EventRequestServiceImpl implements EventRequestService {
 
     private final EventRequestRepository eventRequestRepository;
 
     private final UserRepository userRepository;
 
-    private final EventRequestConverter eventRequestConverter;
+    private final PhoneServiceImpl phoneService;
 
     private static final int PAGE_SIZE = 5;
-
-    @Autowired
-    public EventRequestServiceImpl(EventRequestRepository eventRequestRepository, UserRepository userRepository, EventRequestConverter eventRequestConverter) {
-        this.eventRequestRepository = eventRequestRepository;
-        this.userRepository = userRepository;
-        this.eventRequestConverter = eventRequestConverter;
-    }
 
     @Override
     public EventRequestVo createEventRequest(EventRequestVo eventRequestVo, Long userId) {
 
+        Long phoneId = phoneService.savePhone(eventRequestVo.phone());
+        if (phoneId == 0) return null;
+
         EventRequest eventRequest = EventRequest.builder()
                 .status(Status.DRAFT)
                 .appealText(eventRequestVo.appealText())
-                .phone(eventRequestVo.phone())
+                .phoneId(phoneId)
                 .name(eventRequestVo.name())
                 .creationDate(LocalDateTime.now())
                 .userId(userId)
                 .build();
-        return eventRequestConverter.convertToVo(eventRequestRepository.save(eventRequest));
+        return convertToVo(eventRequestRepository.save(eventRequest));
     }
 
     @Override
@@ -57,7 +53,7 @@ public class EventRequestServiceImpl implements EventRequestService {
         Optional<EventRequest> eventRequest = eventRequestRepository.findById(eventRequestId);
         if (eventRequest.isEmpty()) return null;
         if (!Objects.equals(eventRequest.get().getUserId(), userId)) return null;
-        return eventRequestConverter.convertToVo(eventRequest.get());
+        return convertToVo(eventRequest.get());
     }
 
     @Override
@@ -67,7 +63,7 @@ public class EventRequestServiceImpl implements EventRequestService {
         return eventRequestRepository.findAllByUserId(userId, pageable)
                 .getContent()
                 .stream()
-                .map(eventRequestConverter::convertToVo)
+                .map(this::convertToVo)
                 .toList();
     }
 
@@ -77,7 +73,7 @@ public class EventRequestServiceImpl implements EventRequestService {
         Pageable pageable = PageRequest.of(pageNumber, PAGE_SIZE, sort);
         return eventRequestRepository.findAllByNameAndStatus(pageable, eventRequestName, Status.SUBMIT)
                 .stream()
-                .map(eventRequestConverter::convertToVo)
+                .map(this::convertToVo)
                 .toList();
     }
 
@@ -88,7 +84,7 @@ public class EventRequestServiceImpl implements EventRequestService {
         User user = userOptional.get();
         return eventRequestRepository.findAllByUserId(user.getId())
                 .stream()
-                .map(eventRequestConverter::convertToVo)
+                .map(this::convertToVo)
                 .toList();
     }
 
@@ -99,13 +95,15 @@ public class EventRequestServiceImpl implements EventRequestService {
         if (!Objects.equals(optionalEventRequest.get().getUserId(), userId)) return null;
         if (!optionalEventRequest.get().getStatus().equals(Status.DRAFT)) return null;
 
+        Long phoneId = phoneService.savePhone(eventRequestVo.phone());
+        if (phoneId == 0) return null;
         EventRequest eventRequest = optionalEventRequest.get();
         eventRequest.setStatus(Status.DRAFT);
         eventRequest.setAppealText(eventRequestVo.appealText());
-        eventRequest.setPhone(eventRequestVo.phone());
+        eventRequest.setPhoneId(phoneId);
         eventRequest.setName(eventRequestVo.name());
 
-        return eventRequestConverter.convertToVo(eventRequestRepository.save(eventRequest));
+        return this.convertToVo(eventRequestRepository.save(eventRequest));
     }
 
     @Override
@@ -117,7 +115,7 @@ public class EventRequestServiceImpl implements EventRequestService {
 
         EventRequest eventRequest = optionalEventRequest.get();
         eventRequest.setStatus(Status.SUBMIT);
-        return eventRequestConverter.convertToVo(eventRequestRepository.save(eventRequest));
+        return this.convertToVo(eventRequestRepository.save(eventRequest));
     }
 
     @Override
@@ -128,7 +126,7 @@ public class EventRequestServiceImpl implements EventRequestService {
 
         EventRequest eventRequest = optionalEventRequest.get();
         eventRequest.setStatus(Status.ACCEPT);
-        return eventRequestConverter.convertToVo(eventRequestRepository.save(eventRequest));
+        return this.convertToVo(eventRequestRepository.save(eventRequest));
     }
 
     @Override
@@ -139,7 +137,7 @@ public class EventRequestServiceImpl implements EventRequestService {
 
         EventRequest eventRequest = optionalEventRequest.get();
         eventRequest.setStatus(Status.REJECT);
-        return eventRequestConverter.convertToVo(eventRequestRepository.save(eventRequest));
+        return convertToVo(eventRequestRepository.save(eventRequest));
     }
 
     @Override
@@ -149,7 +147,17 @@ public class EventRequestServiceImpl implements EventRequestService {
         List<Status> statusList = List.of(Status.ACCEPT, Status.SUBMIT, Status.REJECT);
         return eventRequestRepository.findAllByNameAndStatusIn(pageable, eventRequestName, statusList)
                 .stream()
-                .map(eventRequestConverter::convertToVo)
+                .map(this::convertToVo)
                 .toList();
+    }
+
+    private EventRequestVo convertToVo(EventRequest eventRequest) {
+        return new EventRequestVo(
+                eventRequest.getStatus(),
+                eventRequest.getAppealText(),
+                phoneService.findById(eventRequest.getPhoneId()).get().getPhoneNumber(),
+                eventRequest.getName(),
+                eventRequest.getCreationDate()
+        );
     }
 }

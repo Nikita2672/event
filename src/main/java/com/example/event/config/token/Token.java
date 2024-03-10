@@ -19,20 +19,24 @@ import lombok.NoArgsConstructor;
 @Table(name = "token")
 public class Token {
     @Id
-    @GeneratedValue
-    public Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(unique = true)
-    public String token;
+    @Column(name = "token", unique = true)
+    private String token;
 
     @Enumerated(EnumType.STRING)
-    public TokenType tokenType = TokenType.BEARER;
+    @Column(name = "token_type")
+    private TokenType tokenType = TokenType.BEARER;
 
-    public boolean revoked;
+    @Column(name = "revoked")
+    private boolean revoked;
 
-    public boolean expired;
+    @Column(name = "expired")
+    private boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "user_id", referencedColumnName = "id")
-    public User user;
+    private User user;
 }

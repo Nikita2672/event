@@ -1,7 +1,6 @@
 package com.example.event.repository;
 
-import com.example.event.model.ERole;
-import com.example.event.model.Role;
+import com.example.event.model.Phone;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Repository;
  * @since %CURRENT_VERSION%
  */
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findByName(ERole name);
+public interface PhoneRepository extends JpaRepository<Phone, Long> {
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    Phone findByPhoneNumber(String phoneNumber);
 }
