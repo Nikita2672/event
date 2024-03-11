@@ -22,7 +22,7 @@
 
         <insert tableName="roles">
             <column name="id" value="2"/>
-            <column name="name" value="ROLE_MODERATOR"/>
+            <column name="name" value="ROLE_OPERATOR"/>
         </insert>
 
         <insert tableName="roles">
@@ -39,7 +39,7 @@
                 SELECT COUNT(*) FROM users WHERE username IN ('iwaa_admin', 'iwaa_admin1', 'iwaa_user1', 'iwaa_user2',
                                                               'iwaa_user3', 'iwaa_user4', 'iwaa_user5', 'iwaa_user6',
                                                               'iwaa_user7', 'iwaa_user8', 'iwaa_user9', 'iwaa_user10',
-                                                              'iwaa_mod1', 'iwaa_mod2', 'iwaa_mod3', 'iwaa_mod4')
+                                                              'iwaa_oper1', 'iwaa_oper2', 'iwaa_oper3', 'iwaa_oper4')
             </sqlCheck>
         </preConditions>
 
@@ -105,22 +105,22 @@
         </insert>
 
         <insert tableName="users">
-            <column name="username" value="iwaa_mod1"/>
+            <column name="username" value="iwaa_oper1"/>
             <column name="password" value="$2a$10$FwACi/b7zPUYMPI4BfTr4.QHDM4VD0NtT8hk8xk24MQAMD7I9B2I2"/>
         </insert>
 
         <insert tableName="users">
-            <column name="username" value="iwaa_mod2"/>
+            <column name="username" value="iwaa_oper2"/>
             <column name="password" value="$2a$10$XeLsuPAcZlHR80D4T4ki6eeRsC6NtS436dm3o3f7.9.xv2bSiQlEG"/>
         </insert>
 
         <insert tableName="users">
-            <column name="username" value="iwaa_mod3"/>
+            <column name="username" value="iwaa_oper3"/>
             <column name="password" value="$2a$10$uruXNUDt1NVp9kOB04Vofut5TlLH2gSZYy5N3SXCkLuGNe2ucBTE"/>
         </insert>
 
         <insert tableName="users">
-            <column name="username" value="iwaa_mod4"/>
+            <column name="username" value="iwaa_oper4"/>
             <column name="password" value="$2a$10$ky8NdMLk7OkvMsNzxr9IQu5cRhplZMvyQcnwPAleTgHA.ZObKHn62"/>
         </insert>
     </changeSet>
@@ -134,7 +134,7 @@
                 SELECT COUNT(*) FROM users WHERE username IN ('iwaa_admin', 'iwaa_admin1', 'iwaa_user1', 'iwaa_user2',
                                                               'iwaa_user3', 'iwaa_user4', 'iwaa_user5', 'iwaa_user6',
                                                               'iwaa_user7', 'iwaa_user8', 'iwaa_user9', 'iwaa_user10',
-                                                              'iwaa_mod1', 'iwaa_mod2', 'iwaa_mod3', 'iwaa_mod4')
+                                                              'iwaa_oper1', 'iwaa_oper2', 'iwaa_oper3', 'iwaa_oper4')
             </sqlCheck>
         </preConditions>
         <sql>
@@ -225,28 +225,174 @@
             INSERT INTO user_roles (user_id, role_id)
             SELECT u.id, r.id
             FROM users u, roles r
-            WHERE u.username = 'iwaa_mod1' AND r.name = 'ROLE_MODERATOR';
+            WHERE u.username = 'iwaa_oper1' AND r.name = 'ROLE_OPERATOR';
         </sql>
 
         <sql>
             INSERT INTO user_roles (user_id, role_id)
             SELECT u.id, r.id
             FROM users u, roles r
-            WHERE u.username = 'iwaa_mod2' AND r.name = 'ROLE_MODERATOR';
+            WHERE u.username = 'iwaa_oper2' AND r.name = 'ROLE_OPERATOR';
         </sql>
 
         <sql>
             INSERT INTO user_roles (user_id, role_id)
             SELECT u.id, r.id
             FROM users u, roles r
-            WHERE u.username = 'iwaa_mod3' AND r.name = 'ROLE_MODERATOR';
+            WHERE u.username = 'iwaa_oper3' AND r.name = 'ROLE_OPERATOR';
         </sql>
 
         <sql>
             INSERT INTO user_roles (user_id, role_id)
             SELECT u.id, r.id
             FROM users u, roles r
-            WHERE u.username = 'iwaa_mod4' AND r.name = 'ROLE_MODERATOR';
+            WHERE u.username = 'iwaa_oper4' AND r.name = 'ROLE_OPERATOR';
+        </sql>
+    </changeSet>
+
+    <changeSet id="createPhonesData" author="nivanov">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="phones"/>
+        </preConditions>
+
+        <insert tableName="phones">
+            <column name="city_code" value="123"/>
+            <column name="country_code" value="234"/>
+            <column name="phone_number" value="999999999"/>
+        </insert>
+
+        <insert tableName="phones">
+            <column name="city_code" value="123"/>
+            <column name="country_code" value="234"/>
+            <column name="phone_number" value="111111111"/>
+        </insert>
+
+        <insert tableName="phones">
+            <column name="city_code" value="123"/>
+            <column name="country_code" value="234"/>
+            <column name="phone_number" value="222222222"/>
+        </insert>
+
+        <insert tableName="phones">
+            <column name="city_code" value="123"/>
+            <column name="country_code" value="234"/>
+            <column name="phone_number" value="333333333"/>
+        </insert>
+
+        <insert tableName="phones">
+            <column name="city_code" value="123"/>
+            <column name="country_code" value="234"/>
+            <column name="phone_number" value="44444444"/>
+        </insert>
+
+        <insert tableName="phones">
+            <column name="city_code" value="123"/>
+            <column name="country_code" value="234"/>
+            <column name="phone_number" value="55555555"/>
+        </insert>
+
+        <insert tableName="phones">
+            <column name="city_code" value="123"/>
+            <column name="country_code" value="234"/>
+            <column name="phone_number" value="666666666"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insertEventRequestsDataMariaDB" author="your_author">
+        <preConditions onFail="MARK_RAN">
+            <dbms type="mysql,mariadb"/>
+            <tableExists tableName="event_request"/>
+            <tableExists tableName="users"/>
+            <tableExists tableName="phones"/>
+        </preConditions>
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text1', NOW() + INTERVAL 1 day, 'celebrity event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '999999999'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user1'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text2', NOW() + INTERVAL 2 day, 'celebrity event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '111111111'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user1'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text3', NOW() + INTERVAL 3 day, 'birthday event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '222222222'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user2'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text3', NOW() + INTERVAL 4 day, 'birthday event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '55555555'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user2'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text6', NOW() + INTERVAL 7 day, 'birthday event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '333333333'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user2'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="createEventRequestDataPostgreSQL" author="nivanov">
+        <preConditions onFail="MARK_RAN">
+            <dbms type="postgresql"/>
+            <tableExists tableName="event_request"/>
+            <tableExists tableName="users"/>
+            <tableExists tableName="phones"/>
+        </preConditions>
+
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text1', NOW() + INTERVAL '1 day', 'celebrity event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '999999999'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user1'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text2', NOW() + INTERVAL '2 day', 'celebrity event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '111111111'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user1'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text3', NOW() + INTERVAL '3 day', 'birthday event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '222222222'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user2'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text3', NOW() + INTERVAL '4 day', 'birthday event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '55555555'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user2'));
+        </sql>
+
+        <sql>
+            INSERT INTO event_request (appeal_text, creation_date, name, operator_id, phone_id, status, user_id)
+            VALUES ('random text6', NOW() + INTERVAL '7 day', 'birthday event',
+                    null,
+                    (SELECT id FROM phones WHERE phone_number = '333333333'), 'DRAFT',
+                    (SELECT id from users where username = 'iwaa_user2'));
         </sql>
     </changeSet>
 </databaseChangeLog>

@@ -12,11 +12,13 @@ import java.util.List;
 public interface EventRequestService {
     EventRequestVo createEventRequest(EventRequestVo eventRequestVo, Long userId);
 
-    EventRequestVo getEventRequestById(Long userId, Long eventRequestId);
+    EventRequestVo getEventRequest(Long userId, Long eventRequestId);
+
+    EventRequestVo getEventRequestById(Long eventRequestId);
 
     List<EventRequestVo> getEventRequests(Long userId, int pageNumber, boolean sortOrder);
 
-    List<EventRequestVo> getEventRequests(int pageNumber, boolean sortOrder, String eventRequestName);
+    List<EventRequestVo> getEventRequests(int pageNumber, String sortOrder, String username, String eventRequestName);
 
     List<EventRequestVo> getAllEventRequests(int pageNumber, String sortOrder, String eventRequestName);
 
@@ -26,7 +28,7 @@ public interface EventRequestService {
 
     EventRequestVo submitEventRequest(@Nonnull Long userId, @Nonnull Long eventId);
 
-    EventRequestVo acceptEventRequest(@Nonnull Long eventId);
+    EventRequestVo acceptEventRequest(@Nonnull Long operatorId, @Nonnull Long eventId);
 
-    EventRequestVo rejectEventRequest(@Nonnull Long eventRequestId);
+    EventRequestVo rejectEventRequest(@Nonnull Long operatorId, @Nonnull Long eventRequestId);
 }

@@ -40,10 +40,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findByUsername(username);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (user.getRoles().stream().anyMatch(role -> role.getName() == ERole.ROLE_MODERATOR)) {
+            if (user.getRoles().stream().anyMatch(role -> role.getName() == ERole.ROLE_OPERATOR)) {
                 return null;
             }
-            user.getRoles().add(roleRepository.findByName(ERole.ROLE_MODERATOR));
+            user.getRoles().add(roleRepository.findByName(ERole.ROLE_OPERATOR));
             return convertToVo(userRepository.save(user));
         }
         return null;

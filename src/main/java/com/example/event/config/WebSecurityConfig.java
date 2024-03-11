@@ -47,7 +47,7 @@ public class WebSecurityConfig {
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/event/user/**").hasRole("USER")
-                        .requestMatchers("/api/event/moderator/**").hasRole("MODERATOR")
+                        .requestMatchers("/api/event/OPERATOR/**").hasRole("OPERATOR")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

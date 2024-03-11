@@ -21,7 +21,7 @@
         </createTable>
 
         <sql>
-            ALTER TABLE roles ADD CONSTRAINT roles_name_check CHECK (name = 'ROLE_USER' OR name = 'ROLE_MODERATOR' OR name = 'ROLE_ADMIN')
+            ALTER TABLE roles ADD CONSTRAINT roles_name_check CHECK (name = 'ROLE_USER' OR name = 'ROLE_OPERATOR' OR name = 'ROLE_ADMIN')
         </sql>
 
     </changeSet>

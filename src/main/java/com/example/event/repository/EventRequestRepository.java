@@ -21,8 +21,17 @@ public interface EventRequestRepository extends JpaRepository<EventRequest, Long
 
     List<EventRequest> findAllByUserId(Long userId);
 
+    Page<EventRequest> findAllByStatus(@Nonnull Pageable pageable, Status status);
+
+    Page<EventRequest> findAllByUserIdAndNameAndStatus(@Nonnull Pageable pageable, Long userId, String name, Status status);
+
+    Page<EventRequest> findAllByUserIdAndStatus(@Nonnull Pageable pageable, Long userId, Status status);
+
     Page<EventRequest> findAllByNameAndStatus(@Nonnull Pageable pageable, String name, Status status);
 
+
     Page<EventRequest> findAllByNameAndStatusIn(@Nonnull Pageable pageable, String name, List<Status> statusList);
+
+    Page<EventRequest> findAllByStatusIn(@Nonnull Pageable pageable, List<Status> statusList);
 
 }

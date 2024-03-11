@@ -27,7 +27,7 @@ public class PhoneServiceImpl implements PhoneService {
 
     public Long savePhone(String phone) {
         PhoneResponse phoneResponse = getPhoneInfo(List.of(phone)).get(0);
-        if (!phoneResponse.type().equals(MOBILE_TYPE)) return 0L;
+        if (phoneResponse.type() == null || !phoneResponse.type().equals(MOBILE_TYPE)) return 0L;
         if (!phoneRepository.existsByPhoneNumber(phoneResponse.phone())) {
             return phoneRepository.save(convertToPhone(phoneResponse)).getId();
         }
@@ -42,7 +42,7 @@ public class PhoneServiceImpl implements PhoneService {
         return Phone.builder()
                 .countryCode(phoneResponse.country_code())
                 .cityCode(phoneResponse.city_code())
-                .phoneNumber(phoneResponse.number())
+                .phoneNumber(phoneResponse.phone())
                 .build();
     }
 }

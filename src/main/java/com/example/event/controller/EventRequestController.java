@@ -38,7 +38,7 @@ public class EventRequestController {
     @GetMapping("user/{eventId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<EventRequestVo> getEventRequest(@PathVariable Long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.getEventRequestById(getUserIdFromToken(), eventId);
+        EventRequestVo eventRequestVo = eventRequestService.getEventRequest(getUserIdFromToken(), eventId);
         if (eventRequestVo == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(eventRequestVo);
     }
@@ -46,7 +46,7 @@ public class EventRequestController {
     @GetMapping("user/eventRequests")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<EventRequestVo>> getEventRequest(@RequestParam(name = "ascSort", defaultValue = "true") boolean sortOrder,
-                                                                @RequestParam(name = "page", defaultValue = "1") int pageNumber) {
+                                                                @RequestParam(name = "page", defaultValue = "0") int pageNumber) {
         return ResponseEntity.ok(eventRequestService.getEventRequests(getUserIdFromToken(), pageNumber, sortOrder));
     }
 
@@ -70,27 +70,37 @@ public class EventRequestController {
     }
 
 
-    @PostMapping("moderator/accept/{eventId}")
-    @PreAuthorize("hasRole('MODERATOR')")
+    @PostMapping("operator/accept/{eventId}")
+    @PreAuthorize("hasRole('OPERATOR')")
     public ResponseEntity<EventRequestVo> acceptEvent(@PathVariable Long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.acceptEventRequest(eventId);
+        EventRequestVo eventRequestVo = eventRequestService.acceptEventRequest(getUserIdFromToken(), eventId);
         if (eventRequestVo == null) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(eventRequestVo);
     }
 
-    @PostMapping("moderator/reject/{eventId}")
-    @PreAuthorize("hasRole('MODERATOR')")
+    @PostMapping("operator/reject/{eventId}")
+    @PreAuthorize("hasRole('OPERATOR')")
     public ResponseEntity<EventRequestVo> rejectEvent(@PathVariable Long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.rejectEventRequest(eventId);
+        EventRequestVo eventRequestVo = eventRequestService.rejectEventRequest(getUserIdFromToken(), eventId);
         if (eventRequestVo == null) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(eventRequestVo);
     }
 
-    @GetMapping("moderator/eventRequests")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<List<EventRequestVo>> getEventRequests(@RequestParam(name = "ascSort", defaultValue = "true") boolean sortOrder,
-                                                                 @RequestParam(name = "page", defaultValue = "1") int pageNumber) {
-        return ResponseEntity.ok(eventRequestService.getEventRequests(getUserIdFromToken(), pageNumber, sortOrder));
+    @GetMapping("operator/eventRequests")
+    @PreAuthorize("hasRole('OPERATOR')")
+    public ResponseEntity<List<EventRequestVo>> getEventRequests(@RequestParam(name = "ascSort", defaultValue = "true") String sortOrder,
+                                                                 @RequestParam(name = "page", defaultValue = "0") int pageNumber,
+                                                                 @RequestParam(name = "username", defaultValue = "") String username,
+                                                                 @RequestParam(name = "eventName", defaultValue = "") String eventName) {
+        return ResponseEntity.ok(eventRequestService.getEventRequests(pageNumber, sortOrder, username, eventName));
+    }
+
+    @GetMapping("operator/eventRequests/{eventId}")
+    @PreAuthorize("hasRole('OPERATOR')")
+    public ResponseEntity<EventRequestVo> getEventRequestById(@PathVariable long eventId) {
+        EventRequestVo eventRequestVo = eventRequestService.getEventRequestById(eventId);
+        if (eventRequestVo == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(eventRequestVo);
     }
 
     @GetMapping("admin/eventRequests")
