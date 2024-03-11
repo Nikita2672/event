@@ -8,10 +8,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Data
 @Getter
 @AllArgsConstructor

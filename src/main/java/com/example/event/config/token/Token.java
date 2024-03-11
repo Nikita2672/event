@@ -7,10 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Data
 @Builder
 @NoArgsConstructor

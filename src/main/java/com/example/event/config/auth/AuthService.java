@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {

@@ -1,5 +1,6 @@
 package com.example.event.controller;
 
+import com.example.event.exception.IllegalRequestException;
 import com.example.event.model.User;
 import com.example.event.service.impl.EventRequestServiceImpl;
 import com.example.event.view.EventRequestVo;
@@ -13,10 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+import static com.example.event.service.impl.EventRequestServiceImpl.EVENT_REQUEST_NOT_FOUND;
+
+
 @RestController
 @RequestMapping("/api/event")
 @RequiredArgsConstructor
@@ -26,63 +26,86 @@ public class EventRequestController {
 
     @PostMapping("user/create")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EventRequestVo> createEventRequest(@RequestBody EventRequestVo eventRequestVo) {
-        EventRequestVo eventRequest = eventRequestService.createEventRequest(eventRequestVo, getUserIdFromToken());
-        if (eventRequest == null) {
-            return ResponseEntity.badRequest().build();
-        } else {
-            return ResponseEntity.ok(eventRequest);
+    public ResponseEntity<?> createEventRequest(@RequestBody EventRequestVo eventRequestVo) {
+        EventRequestVo eventRequest;
+        try {
+            eventRequest = eventRequestService.createEventRequest(eventRequestVo, getUserIdFromToken());
+        } catch (IllegalRequestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+        return ResponseEntity.ok(eventRequest);
     }
 
     @GetMapping("user/{eventId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EventRequestVo> getEventRequest(@PathVariable Long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.getEventRequest(getUserIdFromToken(), eventId);
-        if (eventRequestVo == null) return ResponseEntity.notFound().build();
+    public ResponseEntity<?> getEventRequest(@PathVariable long eventId) {
+        EventRequestVo eventRequestVo;
+        try {
+            eventRequestVo = eventRequestService.getEventRequest(getUserIdFromToken(), eventId);
+        } catch (IllegalRequestException e) {
+            if (e.getMessage().equals(EVENT_REQUEST_NOT_FOUND)) return ResponseEntity.notFound().build();
+            else return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok(eventRequestVo);
     }
 
     @GetMapping("user/eventRequests")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<EventRequestVo>> getEventRequest(@RequestParam(name = "ascSort", defaultValue = "true") boolean sortOrder,
+    public ResponseEntity<List<EventRequestVo>> getEventRequest(@RequestParam(name = "ascSort", defaultValue = "true") String sortOrder,
                                                                 @RequestParam(name = "page", defaultValue = "0") int pageNumber) {
         return ResponseEntity.ok(eventRequestService.getEventRequests(getUserIdFromToken(), pageNumber, sortOrder));
     }
 
     @PostMapping("user/updateEvent/{eventId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EventRequestVo> updateEventRequest(@RequestBody EventRequestVo eventRequestVo,
-                                                             @PathVariable Long eventId) {
-
-        EventRequestVo eventRequestVoResult = eventRequestService.updateEventRequest(getUserIdFromToken(), eventId, eventRequestVo);
-        if (eventRequestVoResult == null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> updateEventRequest(@RequestBody EventRequestVo eventRequestVo,
+                                                @PathVariable long eventId) {
+        EventRequestVo eventRequestVoResult;
+        try {
+            eventRequestVoResult = eventRequestService.updateEventRequest(getUserIdFromToken(), eventId, eventRequestVo);
+        } catch (IllegalRequestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok(eventRequestVoResult);
     }
 
 
     @PostMapping("user/submit/{eventId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<EventRequestVo> submitEventRequest(@PathVariable Long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.submitEventRequest(getUserIdFromToken(), eventId);
-        if (eventRequestVo == null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> submitEventRequest(@PathVariable long eventId) {
+        EventRequestVo eventRequestVo;
+        try {
+            eventRequestVo = eventRequestService.submitEventRequest(getUserIdFromToken(), eventId);
+        } catch (IllegalRequestException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok(eventRequestVo);
     }
 
 
     @PostMapping("operator/accept/{eventId}")
     @PreAuthorize("hasRole('OPERATOR')")
-    public ResponseEntity<EventRequestVo> acceptEvent(@PathVariable Long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.acceptEventRequest(getUserIdFromToken(), eventId);
-        if (eventRequestVo == null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> acceptEvent(@PathVariable long eventId) {
+        EventRequestVo eventRequestVo;
+        try {
+            eventRequestVo = eventRequestService.acceptEventRequest(getUserIdFromToken(), eventId);
+        } catch (IllegalRequestException e) {
+            if (e.getMessage().equals(EVENT_REQUEST_NOT_FOUND)) return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok(eventRequestVo);
     }
 
     @PostMapping("operator/reject/{eventId}")
     @PreAuthorize("hasRole('OPERATOR')")
-    public ResponseEntity<EventRequestVo> rejectEvent(@PathVariable Long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.rejectEventRequest(getUserIdFromToken(), eventId);
-        if (eventRequestVo == null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> rejectEvent(@PathVariable long eventId) {
+        EventRequestVo eventRequestVo;
+        try {
+            eventRequestVo = eventRequestService.rejectEventRequest(getUserIdFromToken(), eventId);
+        } catch (IllegalRequestException e) {
+            if (e.getMessage().equals(EVENT_REQUEST_NOT_FOUND)) return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok(eventRequestVo);
     }
 
@@ -98,8 +121,12 @@ public class EventRequestController {
     @GetMapping("operator/eventRequests/{eventId}")
     @PreAuthorize("hasRole('OPERATOR')")
     public ResponseEntity<EventRequestVo> getEventRequestById(@PathVariable long eventId) {
-        EventRequestVo eventRequestVo = eventRequestService.getEventRequestById(eventId);
-        if (eventRequestVo == null) return ResponseEntity.notFound().build();
+        EventRequestVo eventRequestVo;
+        try {
+            eventRequestVo = eventRequestService.getEventRequestById(eventId);
+        } catch (IllegalRequestException e) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(eventRequestVo);
     }
 
@@ -111,13 +138,11 @@ public class EventRequestController {
         return ResponseEntity.ok(eventRequestService.getAllEventRequests(pageNumber, sortOrder, eventName));
     }
 
-    private Long getUserIdFromToken() {
+    private long getUserIdFromToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
             return ((User) userDetails).getId();
         }
-        return null;
+        return 0L;
     }
-
-
 }

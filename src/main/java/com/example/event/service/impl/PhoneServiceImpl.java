@@ -25,7 +25,7 @@ public class PhoneServiceImpl implements PhoneService {
         return phoneRepository.findById(id);
     }
 
-    public Long savePhone(String phone) {
+    public long savePhone(String phone) {
         PhoneResponse phoneResponse = getPhoneInfo(List.of(phone)).get(0);
         if (phoneResponse.type() == null || !phoneResponse.type().equals(MOBILE_TYPE)) return 0L;
         if (!phoneRepository.existsByPhoneNumber(phoneResponse.phone())) {

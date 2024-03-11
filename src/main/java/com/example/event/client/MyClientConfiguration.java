@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Configuration
 public class MyClientConfiguration {
 

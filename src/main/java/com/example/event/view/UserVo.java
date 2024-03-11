@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Set;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 public record UserVo(
         @JsonProperty("username")
         String username,

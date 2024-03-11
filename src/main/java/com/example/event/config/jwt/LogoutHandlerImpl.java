@@ -9,10 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Service
 @RequiredArgsConstructor
 public class LogoutHandlerImpl implements LogoutHandler {

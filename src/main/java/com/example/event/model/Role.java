@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Entity
 @Table(name = "roles")
 @Data

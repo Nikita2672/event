@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -28,9 +25,11 @@ public class UserController {
 
     @PostMapping("/permission")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserVo> givePermission(@RequestBody String username) {
+    public ResponseEntity<?> givePermission(@RequestBody String username) {
         UserVo responseUserVo = userService.givePermissions(username);
-        if (responseUserVo == null) return ResponseEntity.badRequest().build();
+        if (responseUserVo == null) {
+            return ResponseEntity.badRequest().body("There is no user with " + username + "name");
+        }
         return ResponseEntity.ok(responseUserVo);
     }
 }

@@ -1,9 +1,6 @@
 package com.example.event.client;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 public record PhoneResponse(
         String source,
         String type,

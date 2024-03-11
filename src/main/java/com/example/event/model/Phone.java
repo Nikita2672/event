@@ -3,10 +3,7 @@ package com.example.event.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Entity
 @Table(name = "phones")
 @Data

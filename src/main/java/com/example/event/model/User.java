@@ -14,10 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Entity
 @Table(name = "users")
 @Data

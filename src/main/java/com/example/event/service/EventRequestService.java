@@ -1,34 +1,29 @@
 package com.example.event.service;
 
+import com.example.event.exception.IllegalRequestException;
 import com.example.event.view.EventRequestVo;
-import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 public interface EventRequestService {
-    EventRequestVo createEventRequest(EventRequestVo eventRequestVo, Long userId);
+    EventRequestVo createEventRequest(EventRequestVo eventRequestVo, long userId) throws IllegalRequestException;
 
-    EventRequestVo getEventRequest(Long userId, Long eventRequestId);
+    EventRequestVo getEventRequest(long userId, long eventRequestId) throws IllegalRequestException;
 
-    EventRequestVo getEventRequestById(Long eventRequestId);
+    EventRequestVo getEventRequestById(long eventRequestId) throws IllegalRequestException;
 
-    List<EventRequestVo> getEventRequests(Long userId, int pageNumber, boolean sortOrder);
+    List<EventRequestVo> getEventRequests(long userId, int pageNumber, String sortOrder);
 
     List<EventRequestVo> getEventRequests(int pageNumber, String sortOrder, String username, String eventRequestName);
 
     List<EventRequestVo> getAllEventRequests(int pageNumber, String sortOrder, String eventRequestName);
 
-    List<EventRequestVo> getEventRequestsByUsername(String username);
+    EventRequestVo updateEventRequest(long userId, long eventRequestId, EventRequestVo eventRequestVo) throws IllegalRequestException;
 
-    EventRequestVo updateEventRequest(@Nonnull Long userId, Long eventRequestId, EventRequestVo eventRequestVo);
+    EventRequestVo submitEventRequest(long userId, long eventId) throws IllegalRequestException;
 
-    EventRequestVo submitEventRequest(@Nonnull Long userId, @Nonnull Long eventId);
+    EventRequestVo acceptEventRequest(long operatorId, long eventId) throws IllegalRequestException;
 
-    EventRequestVo acceptEventRequest(@Nonnull Long operatorId, @Nonnull Long eventId);
-
-    EventRequestVo rejectEventRequest(@Nonnull Long operatorId, @Nonnull Long eventRequestId);
+    EventRequestVo rejectEventRequest(long operatorId, long eventRequestId) throws IllegalRequestException;
 }

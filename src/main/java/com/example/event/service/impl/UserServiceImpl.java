@@ -14,10 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @author nivanov
- * @since %CURRENT_VERSION%
- */
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
