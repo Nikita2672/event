@@ -4,7 +4,7 @@
 С ТЗ проекта вы можете ознакомиться по [ссылке](https://docs.google.com/document/d/1hJ8ntERbZVZlSGdg38Ay4ccvmsH6dKWwyjAWLyq8WII/edit?usp=sharing)
 
 ## Резюме
-Вы можете ознакомиться с моим резюме [здесь](https://drive.google.com/file/d/1XvFd10oVKiipZvqD-czDH5gOgA3K0WWy/view?usp=sharing). В резюме вы найдете информацию о моем опыте работы, образовании и ключевых навыках.
+Вы можете ознакомиться с моим резюме [здесь](https://drive.google.com/file/d/1SIbfTSxdfojwijqdDqrS0zJQezqabu5j/view?usp=drive_link). В резюме вы найдете информацию о моем опыте работы, образовании и ключевых навыках.
 
 ## Как начать
 
@@ -25,8 +25,8 @@
 
 ## Связь со мной
 
-Если у вас есть вопросы, предложения или вы хотите связаться со мной, вы можете написать мне в телеграмм [@Nikita262672](https://t.me/Nikita262672)
-Или на почту iwaa0303@mail.ru
+Если у вас есть вопросы, предложения или вы хотите связаться со мной, вы можете написать мне в телеграмм [@ndivanov](https://t.me/ndivanov)
+Или на почту ivanovnd03@mail.ru
 
 Благодарю за интерес к моему проекту!
 
